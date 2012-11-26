@@ -67,7 +67,7 @@ platform_options["quantum_packages"].each do |pkg|
 end
 
 service "quantum-server" do
-    service_name platform_options["quantum_api_server"]
+    service_name platform_options["quantum_api_service"]
     supports :status => true, :restart => true
     action :nothing
 end

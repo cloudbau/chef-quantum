@@ -43,6 +43,17 @@ default["quantum"]["overlap_ips"] = "False"
 # Manage plugins here, currently only supports openvswitch (ovs)
 default["quantum"]["plugin"] = "ovs"
 
+# Plugin defaults
+# OVS
+default["quantum"]["ovs"]["packages"] = [ "quantum-plugin-openvswitch", "quantum-plugin-openvswitch-agent" ]
+default["quantum"]["ovs"]["service_name"] = "quantum-plugin-openvswitch-agent"
+default["quantum"]["ovs"]["network_type"] = "gre"
+default["quantum"]["ovs"]["tunneling"] = "True" 		# Must be true if network type is GRE
+default["quantum"]["ovs"]["tunnel_ranges"] = "1:1000"		# Enumerating ranges of GRE tunnel IDs that are available for tenant network allocation (if GRE)
+default["quantum"]["ovs"]["integration_bridge"] = "br-int"	# Don't change without a good reason..
+default["quantum"]["ovs"]["tunnel_bridge"] = "br-tun"		# only used if tunnel_ranges is set
+
+
 case platform
 when "fedora", "redhat", "centos"
     default["quantum"]["platform"]["folsom"] = {
