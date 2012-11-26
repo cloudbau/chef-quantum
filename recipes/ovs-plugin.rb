@@ -26,7 +26,7 @@ end
 platform_options = node["quantum"]["platform"][release]
 plugin = node["quantum"]["plugin"]
 
-node["quantum"][plugin].each do |pkg| 
+node["quantum"][plugin]["packages"].each do |pkg| 
     package pkg do
         action :upgrade
         options platform_options["package_overrides"]
@@ -59,4 +59,7 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
 	    "ovs_tunnel_bridge" => node["quantum"]["ovs"]["tunnel_bridge"],
 	    "ovs_local_ip" => local_ip
     )
+    notifies :restart, resources(:service => "quantum-server"), :immediately
+    notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
+    notifies :enable, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
 end
