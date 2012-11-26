@@ -39,6 +39,12 @@ service "quantum-plugin-openvswitch-agent" do
     action :nothing
 end
 
+service "openvswitch-switch" do
+    service_name "openvswitch-switch"
+    supports :status => true, :restart => true
+    action :nothing
+end
+
 mysql_info = get_access_endpoint("mysql-master", "mysql", "db")
 local_ip = get_ip_for_net('nova', node)		### FIXME
 
@@ -62,4 +68,5 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
     notifies :restart, resources(:service => "quantum-server"), :immediately
     notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
     notifies :enable, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
+    notifies :restart, resources(:service => "openvswitch-switch"), :immediately
 end
