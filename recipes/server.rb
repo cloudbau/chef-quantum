@@ -105,7 +105,7 @@ keystone_register "Grant 'admin' role to service user for service tenant" do
     auth_token keystone["admin_token"] 
     tenant_name node["quantum"]["service_tenant_name"]
     user_name node["quantum"]["service_user"]
-    role_name node["qunatum"]["service_role"]
+    role_name node["quantum"]["service_role"]
     action :grant_role
 end
 
