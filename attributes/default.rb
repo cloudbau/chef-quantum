@@ -46,7 +46,7 @@ when "fedora", "redhat", "centos"
 when "ubuntu"
     default["quantum"]["platform"]["folsom"] = {
 	    "mysql_python_packages" => [ "python-mysqldb" ],
-	    "quantum_packages" => [ "quantum-server" ],
+	    "quantum_packages" => [ "quantum-server", "python-quantum", "quantum-common" ],
 	    "quantum_api_service" => "quantum",
 	    "quantum_api_process_name" => "quantum-server",
 	    "package_overrides" => "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
