@@ -40,6 +40,9 @@ default["quantum"]["verbose"] = "False"
 # # being used in conjunction with nova security groups and/or metadata service.
 default["quantum"]["overlap_ips"] = "False"
 
+# Manage plugins here, currently only supports openvswitch (ovs)
+default["quantum"]["plugin"] = "ovs"
+
 case platform
 when "fedora", "redhat", "centos"
     default["quantum"]["platform"]["folsom"] = {

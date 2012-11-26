@@ -122,7 +122,7 @@ keystone_register "Reqister Quantum Service" do
 end
 
 api_endpoint = get_bind_endpoint("quantum", "api")
-    keystone_register "Register Quantum Endpoint" do
+keystone_register "Register Quantum Endpoint" do
     auth_host ks_admin_endpoint["host"]
     auth_port ks_admin_endpoint["port"]
     auth_protocol ks_admin_endpoint["scheme"]
@@ -165,6 +165,9 @@ template "/etc/quantum/quantum.conf" do
 	    "quantum_port" => api_endpoint["port"],
 	    "rabbit_ipaddress" => rabbit_info["host"],
 	    "rabbit_port" => rabbit_info["port"],
-	    "overlapping_ips" => node["quantum"]["overlap_ips"]
+	    "overlapping_ips" => node["quantum"]["overlap_ips"],
+	    "quantum_plugin" => node["quantum"]["plugin"]
     )
+    notifies :restart, resources(:service => "quantum-server"), :immediately
+    notifies :enable, resources(:service => "quantum-server"), :immediately
 end
