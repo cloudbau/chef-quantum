@@ -109,3 +109,18 @@ keystone_register "Grant 'admin' role to service user for service tenant" do
     action :grant_role
 end
 
+template "/etc/quantum/api-paste.ini" do
+    source "#{release}/api-paste.ini.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables(
+	    "keystone_api_ipaddress" => ks_admin_endpoint["host"],
+	    "keystone_admin_port" => ks_admin_endpoint["port"],
+	    "keystone_protocol" => ks_admin_endpoint["scheme"],
+	    "service_tenant_name" => node["quantum"]["service_tenant_name"],
+	    "service_user" => node["quantum"]["service_user"],
+	    "service_pass" => node["quantum"]["service_pass"]
+    )
+end
+
