@@ -33,6 +33,12 @@ default["quantum"]["db"]["username"] = "quantum"
 default["quantum"]["service_tenant_name"] = "service"
 default["quantum"]["service_user"] = "quantum"
 default["quantum"]["service_role"] = "admin"
+default["quantum"]["debug"] = "False"
+default["quantum"]["verbose"] = "False"
+
+# Attention: the following parameter MUST be set to False if Quantum is
+# # being used in conjunction with nova security groups and/or metadata service.
+default["quantum"]["overlap_ips"] = "False"
 
 case platform
 when "fedora", "redhat", "centos"

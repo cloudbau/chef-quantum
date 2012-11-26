@@ -109,6 +109,33 @@ keystone_register "Grant 'admin' role to service user for service tenant" do
     action :grant_role
 end
 
+keystone_register "Reqister Quantum Service" do
+    auth_host ks_admin_endpoint["host"]
+    auth_port ks_admin_endpoint["port"]
+    auth_protocol ks_admin_endpoint["scheme"]
+    api_ver ks_admin_endpoint["path"]
+    auth_token keystone["admin_token"]
+    service_name "quantum"
+    service_type "network"
+    service_description "Quantum Network Service"
+    action :create_service
+end
+
+api_endpoint = get_bind_endpoint("quantum", "api")
+    keystone_register "Register Quantum Endpoint" do
+    auth_host ks_admin_endpoint["host"]
+    auth_port ks_admin_endpoint["port"]
+    auth_protocol ks_admin_endpoint["scheme"]
+    api_ver ks_admin_endpoint["path"]
+    auth_token keystone["admin_token"]
+    service_type "network"
+    endpoint_region "RegionOne"
+    endpoint_adminurl api_endpoint["uri"]
+    endpoint_internalurl api_endpoint["uri"]
+    endpoint_publicurl api_endpoint["uri"]
+    action :create_endpoint
+end
+
 template "/etc/quantum/api-paste.ini" do
     source "#{release}/api-paste.ini.erb"
     owner "root"
@@ -124,3 +151,20 @@ template "/etc/quantum/api-paste.ini" do
     )
 end
 
+# Get rabbit info
+rabbit_info = get_access_endpoint("rabbitmq-server", "rabbitmq", "queue")
+template "/etc/quantum/quantum.conf" do
+    source "#{release}/quantum.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables(
+	    "quantum_debug" => node["quantum"]["debug"],
+	    "quantum_verbose" => node["quantum"]["verbose"],
+	    "quantum_ipaddress" => api_endpoint["host"],
+	    "quantum_port" => api_endpoint["port"],
+	    "rabbit_ipaddress" => rabbit_info["host"],
+	    "rabbit_port" => rabbit_info["port"],
+	    "overlapping_ips" => node["quantum"]["overlap_ips"]
+    )
+end
