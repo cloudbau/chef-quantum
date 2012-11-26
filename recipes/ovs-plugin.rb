@@ -54,6 +54,6 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
 	    "ovs_tunnel_ranges" => node["quantum"]["ovs"]["tunnel_ranges"],
 	    "ovs_integration_bridge" => node["quantum"]["ovs"]["integration_bridge"],
 	    "ovs_tunnel_bridge" => node["quantum"]["ovs"]["tunnel_bridge"],
-	    "ovs_local_ip" => get_ip_for_net('nova', node)
+	    "ovs_local_ip" => get_ip_for_net('nova', node)	### FIXME
     )
 end
