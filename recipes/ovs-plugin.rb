@@ -23,7 +23,9 @@ else
 	    release = "folsom"
 end
 
+platform_options = node["quantum"]["platform"][release]
 plugin = node["quantum"]["plugin"]
+
 node["quantum"][plugin].each do |pkg| 
     package pkg do
         action :upgrade
@@ -38,6 +40,7 @@ service "quantum-plugin-openvswitch-agent" do
 end
 
 mysql_info = get_access_endpoint("mysql-master", "mysql", "db")
+local_ip = get_ip_for_net('nova', node)		### FIXME
 
 template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
     source "#{release}/ovs_quantum_plugin.ini.erb"
@@ -54,6 +57,6 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
 	    "ovs_tunnel_ranges" => node["quantum"]["ovs"]["tunnel_ranges"],
 	    "ovs_integration_bridge" => node["quantum"]["ovs"]["integration_bridge"],
 	    "ovs_tunnel_bridge" => node["quantum"]["ovs"]["tunnel_bridge"],
-	    "ovs_local_ip" => get_ip_for_net('nova', node)	### FIXME
+	    "ovs_local_ip" => local_ip
     )
 end
