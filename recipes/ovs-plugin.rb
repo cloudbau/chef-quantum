@@ -74,10 +74,12 @@ end
 execute "ovs-vsctl add-br br-int" do
     command "ovs-vsctl add-br #{node["quantum"]["ovs"]["integration_bridge"]}"
     action :run
+    not_if "ovs-vsctl show | grep 'Bridge br-int'" ## FIXME
 end
 
 execute "ovs-vsctl add-br br-tun" do
     command "ovs-vsctl add-br #{node["quantum"]["ovs"]["tunnel_bridge"]}"
     action :run
     only_if { node["quantum"]["ovs"]["tunneling"] == "True" }
+    not_if "ovs-vsctl show | grep 'Bridge br-tun'" ## FIXME
 end
