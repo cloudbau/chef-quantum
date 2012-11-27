@@ -70,3 +70,14 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
     notifies :enable, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
     notifies :restart, resources(:service => "openvswitch-switch"), :immediately
 end
+
+execute "ovs-vsctl add-br br-int" do
+    command "ovs-vsctl add-br #{node["quantum"]["ovs"]["integration_bridge"]}"
+    action :run
+end
+
+execute "ovs-vsctl add-br br-tun" do
+    command "ovs-vsctl add-br #{node["quantum"]["ovs"]["tunnel_bridge"]}"
+    action :run
+    only_if { node["quantum"]["ovs"]["tunneling"] == "True" }
+end
