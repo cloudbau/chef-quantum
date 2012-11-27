@@ -5,7 +5,7 @@ metadata_ip = <%= @nova_metadata_ip %>
 debug = <%= @quantum_debug %>
 verbose = <%= @quantum_verbose %>
 state_path = /var/run/quantum
-root_helper = /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
+root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 
 <% if @quantum_plugin == "ovs" %>
 interface_driver = quantum.agent.linux.interface.OVSInterfaceDriver

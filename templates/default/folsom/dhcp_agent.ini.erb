@@ -6,6 +6,7 @@ auth_url = <%= @keystone_protocol %>://<%= @keystone_api_ipaddress %>:<%= @keyst
 use_namespaces = True
 debug = <%= @quantum_debug %>
 verbose = <%= @quantum_verbose %>
+root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 
 # State_path must be writable by service user for quantum
 state_path = /var/run/quantum
