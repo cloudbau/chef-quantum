@@ -59,5 +59,5 @@ template "/etc/quantum/dhcp_agent.ini" do
 	    "quantum_plugin" => node["quantum"]["plugin"]
     )
     notifies :restart, resources(:service => "quantum-dhcp-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-server"), :immediately
+    notifies :enable, resources(:service => "quantum-dhcp-agent"), :immediately
 end
