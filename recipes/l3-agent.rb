@@ -40,18 +40,6 @@ service "quantum-l3-agent" do
     action :nothing
 end
 
-# execute "ovs-vsctl add-br br-ex" do
-    # command "ovs-vsctl add-br #{node["quantum"]["ovs"]["external_bridge"]}"
-    # action :run
-    # not_if "ovs-vsctl show | grep 'Bridge br-ex'" ## FIXME
-# end
-
-# execute "ovs-vsctl add-port br-ex interface" do
-    # command "ovs-vsctl add-port #{node["quantum"]["ovs"]["external_bridge"]} #{node["quantum"]["ovs"]["external_interface"]}"
-    # action :run
-    # not_if "ovs-vsctl list-ports #{node["quantum"]["ovs"]["external_bridge"]}"
-# end
-
 ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
 metadata_ip = get_ip_for_net("nova", search(:node, "recipes:nova\\:\\:api-metadata"))
 template "/etc/quantum/l3_agent.ini" do

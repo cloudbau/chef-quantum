@@ -83,19 +83,6 @@ template "/etc/quantum/quantum.conf" do
     )
 end
 
-# execute "ovs-vsctl add-br br-int" do
-    # command "ovs-vsctl add-br #{node["quantum"]["ovs"]["integration_bridge"]}"
-    # action :run
-    # not_if "ovs-vsctl show | grep 'Bridge br-int'" ## FIXME
-# end
-
-# execute "ovs-vsctl add-br br-tun" do
-    # command "ovs-vsctl add-br #{node["quantum"]["ovs"]["tunnel_bridge"]}"
-    # action :run
-    # only_if { node["quantum"]["ovs"]["tunneling"] == "True" }
-    # not_if "ovs-vsctl show | grep 'Bridge br-tun'" ## FIXME
-# end
-
 template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
     source "#{release}/ovs_quantum_plugin.ini.erb"
     owner "root"
@@ -119,5 +106,11 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
     notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
     notifies :enable, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
     notifies :restart, resources(:service => "openvswitch-switch"), :immediately
+end
+
+execute "create integration bridge" do
+    command "ovs-vsctl add-br #{node["quantum"]["ovs"]["integration_bridge"]}"
+    action :run
+    not_if "ovs-vsctl show | grep 'Bridge br-int'" ## FIXME
 end
 
