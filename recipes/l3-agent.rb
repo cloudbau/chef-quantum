@@ -18,6 +18,10 @@
 
 include_recipe "osops-utils"
 
+if Chef::Config[:solo]
+	Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+end
+
 if not node["package_component"].nil?
     release = node["package_component"]
 else
@@ -41,7 +45,8 @@ service "quantum-l3-agent" do
 end
 
 ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
-metadata_ip = get_ip_for_net("nova", search(:node, "recipes:nova\\:\\:api-metadata"))
+metadata_ip = get_ip_for_net("nova", search(:node, "recipes:nova\\:\\:api-metadata AND chef_environment:#{node.chef_environment}"))
+
 template "/etc/quantum/l3_agent.ini" do
     source "#{release}/l3_agent.ini.erb"
     owner "root"
@@ -59,6 +64,7 @@ template "/etc/quantum/l3_agent.ini" do
 	    "keystone_path" => ks_admin_endpoint["path"],
 	    "quantum_debug" => node["quantum"]["debug"],
 	    "quantum_verbose" => node["quantum"]["verbose"],
+	    "quantum_namespace" => node["quantum"]["use_namespaces"],
 	    "quantum_plugin" => node["quantum"]["plugin"]
     )
     notifies :restart, resources(:service => "quantum-l3-agent"), :immediately
