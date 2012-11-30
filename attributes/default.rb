@@ -39,6 +39,7 @@ default["quantum"]["verbose"] = "False"
 # Attention: the following parameter MUST be set to False if Quantum is
 # # being used in conjunction with nova security groups and/or metadata service.
 default["quantum"]["overlap_ips"] = "False"
+default["quantum"]["use_namespaces"] = "False" # should correspond to overlap_ips used for dhcp agent and l3 agent.
 
 # Manage plugins here, currently only supports openvswitch (ovs)
 default["quantum"]["plugin"] = "ovs"

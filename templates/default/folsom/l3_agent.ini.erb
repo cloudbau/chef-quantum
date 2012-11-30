@@ -1,6 +1,6 @@
 [DEFAULT]
 external_network_bridge = <%= @quantum_external_bridge %>
-use_namespaces = True
+use_namespaces = <%= @quantum_namespace %>
 metadata_ip = <%= @nova_metadata_ip %>
 debug = <%= @quantum_debug %>
 verbose = <%= @quantum_verbose %>
