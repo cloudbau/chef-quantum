@@ -9,6 +9,6 @@ recipe		 "quantum::server", "Installs packages required for quantum-server"
 	  supports os
 end
 
-%w{ database monitoring mysql osops-utils }.each do |dep|
+%w{ database mysql osops-utils }.each do |dep|
 	  depends dep
 end
