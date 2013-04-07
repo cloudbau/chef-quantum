@@ -4,6 +4,11 @@ verbose = <%= @quantum_verbose %>
 bind_host = <%= @quantum_ipaddress %>
 bind_port = <%= @quantum_port %>
 
+<% if @use_syslog == true %>
+use_syslog=<%= @use_syslog %>
+syslog_log_facility=<%= @log_facility %>
+<% end %>
+
 <% if @quantum_plugin == "ovs" %>
 core_plugin = quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPluginV2
 <% end %>

@@ -159,6 +159,8 @@ template "/etc/quantum/quantum.conf" do
     group "root"
     mode "0644"
     variables(
+      "use_syslog" => node["quantum"]["syslog"]["use"],
+      "log_facility" => node["quantum"]["syslog"]["facility"],
 	    "quantum_debug" => node["quantum"]["debug"],
 	    "quantum_verbose" => node["quantum"]["verbose"],
 	    "quantum_ipaddress" => api_endpoint["host"],

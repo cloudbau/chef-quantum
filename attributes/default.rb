@@ -33,6 +33,11 @@ default["quantum"]["db"]["username"] = "quantum"
 default["quantum"]["service_tenant_name"] = "service"
 default["quantum"]["service_user"] = "quantum"
 default["quantum"]["service_role"] = "admin"
+
+#logging stuff
+default["quantum"]["syslog"]["use"] = true
+default["quantum"]["syslog"]["facility"] = "LOG_LOCAL3"
+default["quantum"]["syslog"]["config_facility"] = "local3"
 default["quantum"]["debug"] = "False"
 default["quantum"]["verbose"] = "False"
 
