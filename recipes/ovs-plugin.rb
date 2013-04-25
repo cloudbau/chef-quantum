@@ -33,6 +33,12 @@ node["quantum"][plugin]["packages"].each do |pkg|
     end
 end
 
+bash "installing linux headers to compile openvswitch module" do
+  code <<-EOH
+    apt-get install -y linux-headers-`uname -r`
+  EOH
+end
+
 service "quantum-plugin-openvswitch-agent" do
     service_name node["quantum"]["ovs"]["service_name"]
     provider Chef::Provider::Service::Upstart
@@ -51,6 +57,7 @@ ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
 rabbit_info = get_access_endpoint("rabbitmq-server", "rabbitmq", "queue")
 api_endpoint = get_bind_endpoint("quantum", "api")
 local_ip = get_ip_for_net('nova', node)		### FIXME
+quantum = get_settings_by_role("quantum-server", "quantum")
 
 template "/etc/quantum/api-paste.ini" do
     source "#{release}/api-paste.ini.erb"
@@ -73,6 +80,10 @@ template "/etc/quantum/quantum.conf" do
     group "root"
     mode "0644"
     variables(
+        "db_ip_address" => mysql_info["host"],
+        "db_user" => quantum["db"]["username"],
+        "db_password" => quantum["db"]["password"],
+        "db_name" => quantum["db"]["name"],
         "quantum_debug" => node["quantum"]["debug"],
         "quantum_verbose" => node["quantum"]["verbose"],
         "quantum_ipaddress" => api_endpoint["host"],
@@ -90,18 +101,18 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
     group "root"
     mode "0644"
     variables(
-	    "db_ip_address" => mysql_info["host"],
-	    "db_user" => node["quantum"]["db"]["username"],
-	    "db_password" => node["quantum"]["db"]["password"],
-	    "db_name" => node["quantum"]["db"]["name"],
-	    "ovs_network_type" => node["quantum"]["ovs"]["network_type"],
-	    "ovs_enable_tunneling" => node["quantum"]["ovs"]["tunneling"],
-	    "ovs_tunnel_ranges" => node["quantum"]["ovs"]["tunnel_ranges"],
-	    "ovs_integration_bridge" => node["quantum"]["ovs"]["integration_bridge"],
-	    "ovs_tunnel_bridge" => node["quantum"]["ovs"]["tunnel_bridge"],
-	    "ovs_debug" => node["quantum"]["debug"],
-	    "ovs_verbose" => node["quantum"]["verbose"],
-	    "ovs_local_ip" => local_ip
+      "db_ip_address" => mysql_info["host"],
+      "db_user" => quantum["db"]["username"],
+      "db_password" => quantum["db"]["password"],
+      "db_name" => quantum["db"]["name"],
+      "ovs_network_type" => node["quantum"]["ovs"]["network_type"],
+      "ovs_enable_tunneling" => node["quantum"]["ovs"]["tunneling"],
+      "ovs_tunnel_ranges" => node["quantum"]["ovs"]["tunnel_ranges"],
+      "ovs_integration_bridge" => node["quantum"]["ovs"]["integration_bridge"],
+      "ovs_tunnel_bridge" => node["quantum"]["ovs"]["tunnel_bridge"],
+      "ovs_debug" => node["quantum"]["debug"],
+      "ovs_verbose" => node["quantum"]["verbose"],
+      "ovs_local_ip" => local_ip
     )
     # notifies :restart, resources(:service => "quantum-server"), :immediately
     notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
