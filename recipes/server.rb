@@ -68,6 +68,7 @@ end
 
 service "quantum-server" do
     service_name platform_options["quantum_api_service"]
+    provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
     action :nothing
 end
@@ -159,6 +160,10 @@ template "/etc/quantum/quantum.conf" do
     group "root"
     mode "0644"
     variables(
+      "db_user" => node["quantum"]["db"]["username"],
+      "db_password" => node["quantum"]["db"]["password"],
+      "db_ipaddress" => mysql_info["bind_address"],
+      "db_name" => node["quantum"]["db"]["name"],
       "use_syslog" => node["quantum"]["syslog"]["use"],
       "log_facility" => node["quantum"]["syslog"]["facility"],
 	    "quantum_debug" => node["quantum"]["debug"],

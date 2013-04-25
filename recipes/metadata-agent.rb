@@ -1,6 +1,6 @@
 #
 ## Cookbook Name:: quantum
-## Recipe:: l3 agent
+## Recipe:: dhcp agent
 ##
 ## Copyright 2012, Rackspace US, Inc.
 ##
@@ -18,10 +18,6 @@
 
 include_recipe "osops-utils"
 
-if Chef::Config[:solo]
-	Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
-end
-
 if not node["package_component"].nil?
     release = node["package_component"]
 else
@@ -31,32 +27,21 @@ end
 platform_options = node["quantum"]["platform"][release]
 plugin = node["quantum"]["plugin"]
 
-platform_options["quantum_l3_packages"].each do |pkg|
-    package pkg do
-        action :upgrade
-	options platform_options["package_overrides"]
-    end
-end
-
-service "quantum-l3-agent" do
-    service_name platform_options["quantum_l3_agent"]
+service "quantum-metadata-agent" do
+    service_name platform_options["quantum_metadata_agent"]
     supports :status => true, :restart => true
     action :nothing
 end
 
-ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
-metadata_ip = get_ip_for_net("nova", search(:node, "recipes:nova\\:\\:api-metadata AND chef_environment:#{node.chef_environment}"))
-
 quantum = get_settings_by_role("quantum-server", "quantum")
 
-template "/etc/quantum/l3_agent.ini" do
-    source "#{release}/l3_agent.ini.erb"
+ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
+template "/etc/quantum/metadata_agent.ini" do
+    source "#{release}/metadata_agent.ini.erb"
     owner "root"
     group "root"
     mode "0644"
     variables(
-      "quantum_external_bridge" => node["quantum"][plugin]["external_bridge"],
-      "nova_metadata_ip" => metadata_ip,
       "service_pass" => quantum["service_pass"],
       "service_user" => quantum["service_user"],
       "service_tenant_name" => quantum["service_tenant_name"],
@@ -65,10 +50,8 @@ template "/etc/quantum/l3_agent.ini" do
       "keystone_admin_port" => ks_admin_endpoint["port"],
       "keystone_path" => ks_admin_endpoint["path"],
       "quantum_debug" => node["quantum"]["debug"],
-      "quantum_verbose" => node["quantum"]["verbose"],
-      "quantum_namespace" => node["quantum"]["use_namespaces"],
-      "quantum_plugin" => node["quantum"]["plugin"]
+      "quantum_verbose" => node["quantum"]["verbose"]
     )
-    notifies :restart, resources(:service => "quantum-l3-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-l3-agent"), :immediately
+    notifies :restart, resources(:service => "quantum-dhcp-agent"), :immediately
+    notifies :enable, resources(:service => "quantum-dhcp-agent"), :immediately
 end

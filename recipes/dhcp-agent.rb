@@ -40,6 +40,8 @@ service "quantum-dhcp-agent" do
     action :nothing
 end
 
+quantum = get_settings_by_role("quantum-server", "quantum")
+
 ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
 template "/etc/quantum/dhcp_agent.ini" do
     source "#{release}/dhcp_agent.ini.erb"
@@ -47,9 +49,9 @@ template "/etc/quantum/dhcp_agent.ini" do
     group "root"
     mode "0644"
     variables(
-	    "service_pass" => node["quantum"]["service_pass"],
-	    "service_user" => node["quantum"]["service_user"],
-	    "service_tenant_name" => node["quantum"]["service_tenant_name"],
+	    "service_pass" => quantum["service_pass"],
+	    "service_user" => quantum["service_user"],
+	    "service_tenant_name" => quantum["service_tenant_name"],
             "keystone_protocol" => ks_admin_endpoint["scheme"],
 	    "keystone_api_ipaddress" => ks_admin_endpoint["host"],
 	    "keystone_admin_port" => ks_admin_endpoint["port"],

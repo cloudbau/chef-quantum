@@ -54,3 +54,6 @@ notification_topics = notifications
 
 # default driver to use for quota checks
 # quota_driver = quantum.quota.ConfDriver
+
+[DATABASE]
+sql_connection = mysql://<%= @db_user %>:<%= @db_password %>@<%= @db_ip_address %>/<%= @db_name %>

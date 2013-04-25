@@ -35,6 +35,7 @@ end
 
 service "quantum-plugin-openvswitch-agent" do
     service_name node["quantum"]["ovs"]["service_name"]
+    provider Chef::Provider::Service::Upstart
     supports :status => true, :restart => true
     action :nothing
 end
