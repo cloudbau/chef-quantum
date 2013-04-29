@@ -40,6 +40,7 @@ end
 
 service "quantum-l3-agent" do
     service_name platform_options["quantum_l3_agent"]
+    provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
     action :nothing
 end

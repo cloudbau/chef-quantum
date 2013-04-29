@@ -36,6 +36,7 @@ end
 
 service "quantum-dhcp-agent" do
     service_name platform_options["quantum_dhcp_agent"]
+    provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
     action :nothing
 end
