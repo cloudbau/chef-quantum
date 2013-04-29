@@ -42,7 +42,7 @@ service "quantum-l3-agent" do
     service_name platform_options["quantum_l3_agent"]
     provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
-    action :nothing
+    action [ :enable, :start ]
 end
 
 ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
