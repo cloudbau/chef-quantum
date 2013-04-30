@@ -31,8 +31,7 @@ service "quantum-metadata-agent" do
     service_name platform_options["quantum_metadata_agent"]
     provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
-    action :enable
-    subscribes :restart, resources(:template => "/etc/quantum/metadata_agent.ini"), :delayed
+    action [ :enable, :start ]
 end
 
 quantum = get_settings_by_role("quantum-server", "quantum")
@@ -54,4 +53,6 @@ template "/etc/quantum/metadata_agent.ini" do
       "quantum_debug" => node["quantum"]["debug"],
       "quantum_verbose" => node["quantum"]["verbose"]
     )
+    notifies :restart, resources(:service => "quantum-dhcp-agent"), :immediately
+    notifies :enable, resources(:service => "quantum-dhcp-agent"), :immediately
 end
