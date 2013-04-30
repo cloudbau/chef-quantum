@@ -43,7 +43,8 @@ service "quantum-plugin-openvswitch-agent" do
     service_name node["quantum"]["ovs"]["service_name"]
     provider Chef::Provider::Service::Upstart
     supports :status => true, :restart => true
-    action :nothing
+    action :enable
+    subscribes :restart, resources(:template => "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini"), :delayed
 end
 
 service "openvswitch-switch" do
@@ -114,9 +115,6 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
       "ovs_verbose" => node["quantum"]["verbose"],
       "ovs_local_ip" => local_ip
     )
-    # notifies :restart, resources(:service => "quantum-server"), :immediately
-    notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
     notifies :restart, resources(:service => "openvswitch-switch"), :immediately
 end
 

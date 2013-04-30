@@ -38,7 +38,8 @@ service "quantum-dhcp-agent" do
     service_name platform_options["quantum_dhcp_agent"]
     provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
-    action [ :enable, :start ]
+    action :enable
+    subscribes :restart, resources(:template => "/etc/quantum/dhcp_agent.ini"), :delayed
 end
 
 quantum = get_settings_by_role("quantum-server", "quantum")
@@ -62,6 +63,4 @@ template "/etc/quantum/dhcp_agent.ini" do
 	    "quantum_namespace" => node["quantum"]["use_namespaces"],
 	    "quantum_plugin" => node["quantum"]["plugin"]
     )
-    notifies :restart, resources(:service => "quantum-dhcp-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-dhcp-agent"), :immediately
 end

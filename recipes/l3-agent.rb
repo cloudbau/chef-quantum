@@ -42,7 +42,8 @@ service "quantum-l3-agent" do
     service_name platform_options["quantum_l3_agent"]
     provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
-    action [ :enable, :start ]
+    action :enable
+    subscribes :restart, resources(:template => "/etc/quantum/l3_agent.ini"), :delayed
 end
 
 ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
@@ -70,6 +71,4 @@ template "/etc/quantum/l3_agent.ini" do
       "quantum_namespace" => node["quantum"]["use_namespaces"],
       "quantum_plugin" => node["quantum"]["plugin"]
     )
-    notifies :restart, resources(:service => "quantum-l3-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-l3-agent"), :immediately
 end
