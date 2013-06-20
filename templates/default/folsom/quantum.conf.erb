@@ -20,8 +20,8 @@ auth_strategy = keystone
 # being used in conjunction with nova security groups and/or metadata service.
 allow_overlapping_ips = <%= @overlapping_ips %>
 
-rpc_thread_pool_size = 64
-rpc_conn_pool_size = 30
+rpc_thread_pool_size = 1
+rpc_conn_pool_size = 10
 rpc_response_timeout = 60
 rpc_cast_timeout = 30
 control_exchange = quantum
