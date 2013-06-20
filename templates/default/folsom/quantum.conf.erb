@@ -44,13 +44,18 @@ notification_topics = notifications
 # default_quota = -1
 
 # number of networks allowed per tenant, and minus means unlimited
-# quota_network = 10
+quota_network = 20
 
 # number of subnets allowed per tenant, and minus means unlimited
-# quota_subnet = 10
+quota_subnet = 20
 
 # number of ports allowed per tenant, and minus means unlimited
 # quota_port = 50
+# number of security groups allowed per tenant, and minus means unlimited
+quota_security_group = 20
+
+# number of security group rules allowed per tenant, and minus means unlimited
+quota_security_group_rule = 200
 
 # default driver to use for quota checks
 # quota_driver = quantum.quota.ConfDriver
