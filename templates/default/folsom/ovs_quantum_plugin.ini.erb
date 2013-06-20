@@ -9,6 +9,11 @@ integration_bridge = <%= @ovs_integration_bridge %>
 tunnel_bridge = <%= @ovs_tunnel_bridge %>
 local_ip = <%= @ovs_local_ip %>
 
+<% if @use_provider_networks %>
+bridge_mappings=<%=  @provider_network_bridge_mappings.map { |network_name, network_info| "#{network_name}:#{network_info['bridge']}" }.join(",") %>
+network_vlan_ranges=<%=  @provider_network_bridge_mappings.map { |network_name, network_info| "#{network_name}:#{network_info['vlan_start']}:#{network_info['vlan_end']}" }.join(",") %>
+<% end %>
+
 [AGENT]
 root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 state_path = /var/run/quantum

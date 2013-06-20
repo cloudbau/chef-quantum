@@ -112,7 +112,9 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
       "ovs_tunnel_bridge" => node["quantum"]["ovs"]["tunnel_bridge"],
       "ovs_debug" => node["quantum"]["debug"],
       "ovs_verbose" => node["quantum"]["verbose"],
-      "ovs_local_ip" => local_ip
+      "ovs_local_ip" => local_ip,
+      "use_provider_networks" => node["quantum"]["ovs"]["use_provider_networks"],
+      "provider_network_bridge_mappings" => node["quantum"]["ovs"]["provider_network_bridge_mappings"],
     )
     # notifies :restart, resources(:service => "quantum-server"), :immediately
     notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
@@ -130,4 +132,23 @@ execute "create external bridge" do
     command "ovs-vsctl add-br #{node["quantum"]["ovs"]["external_bridge"]}"
     action :run
     not_if "ovs-vsctl show | grep 'Bridge br-ex'" ## FIXME
+end
+
+if node["quantum"]["ovs"]["use_provider_networks"]
+  node["quantum"]["ovs"]["provider_network_bridge_mappings"].each do |network_name, network_info|
+    execute "create provider network_bridge for #{network_name}" do
+      bridge = network_info['bridge']
+      command "ovs-vsctl add-br #{bridge}"
+      action :run
+      not_if "ovs-vsctl show | grep 'Bridge #{bridge}'" ## FIXME
+    end
+    
+    execute "connecting provider port to bridge for #{network_name}" do
+      bridge = network_info['bridge']
+      port = = network_info['port']
+      command "add-port #{bridge} #{port}"
+      action :run
+      not_if "ovs-vsctl show | grep 'Port \"#{port}'" ## FIXME
+    end
+  end
 end

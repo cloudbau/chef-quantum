@@ -84,3 +84,15 @@ when "ubuntu"
 	    "package_overrides" => "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
     }
 end
+
+
+
+default["quantum"]["ovs"]["use_provider_networks"] = false
+# e.g.
+# { "provider_network_1" => { "bridge" => "br-ex", 
+#                             "port" => "eth0",
+#                             "vlan_start" => 200,
+#                             "vlan_end" => 399
+#                           }
+# }
+default["quantum"]["ovs"]["provider_network_bridge_mappings"] = { }
