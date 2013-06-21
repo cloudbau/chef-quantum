@@ -146,7 +146,7 @@ if node["quantum"]["ovs"]["use_provider_networks"]
     execute "connecting provider port to bridge for #{network_name}" do
       bridge = network_info['bridge']
       port = network_info['port']
-      command "add-port #{bridge} #{port}"
+      command "ovs-vsctl add-port #{bridge} #{port}"
       action :run
       not_if "ovs-vsctl show | grep 'Port \"#{port}'" ## FIXME
     end
