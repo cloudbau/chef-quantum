@@ -114,7 +114,7 @@ template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
       "ovs_verbose" => node["quantum"]["verbose"],
       "ovs_local_ip" => local_ip,
       "use_provider_networks" => node["quantum"]["ovs"]["use_provider_networks"],
-      "provider_network_bridge_mappings" => node["quantum"]["ovs"]["provider_network_bridge_mappings"],
+      "provider_network_bridge_mappings" => node["quantum"]["ovs"]["provider_network_bridge_mappings"]
     )
     # notifies :restart, resources(:service => "quantum-server"), :immediately
     notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
