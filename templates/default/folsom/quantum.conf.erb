@@ -11,8 +11,7 @@ syslog_log_facility=<%= @log_facility %>
 
 <% if @quantum_plugin == "ovs" %>
 core_plugin = quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPluginV2
-<% end %>
-<% if @quantum_plugin == "midonet" %>
+<% elsif @quantum_plugin == "midonet" %>
 core_plugin = quantum.plugins.midonet.plugin.MidonetPluginV2
 <% end %>
 api_paste_config = /etc/quantum/api-paste.ini
