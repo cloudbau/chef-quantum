@@ -12,6 +12,18 @@ state_path = /var/run/quantum
 
 <% if @quantum_plugin == "ovs" %>
 interface_driver = quantum.agent.linux.interface.OVSInterfaceDriver
+dhcp_driver = quantum.agent.linux.dhcp.Dnsmasq
+<% elsif @quantum_plugin == "midonet" %>
+dhcp_driver = quantum.plugins.midonet.agent.midonet_agent.DhcpDriverNoOp
+interface_driver = quantum.plugins.midonet.agent.midonet_agent.MidonetInterfaceDriver
+use_namespaces = True
+enable_isolated_metadata = True
+
+[MIDONET]
+midonet_uri=<%= @mnapi_protocol %>://<%= @mnapi_host %>:<%= @mnapi_port %>/<%= @mnapi_path %>
+username=<%= @midonet_username %>
+password=<%= @midonet_password %>
+project_id=<%= @midonet_tenant %>
+provider_router_id=<%= @midonet_provider_router %>
 <% end %>
 
-dhcp_driver = quantum.agent.linux.dhcp.Dnsmasq
