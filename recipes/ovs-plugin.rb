@@ -16,6 +16,7 @@
 ## limitations under the License.
 ##
 include_recipe "osops-utils"
+include_recipe "quantum::quantum-common"
 
 if not node["package_component"].nil?
 	    release = node["package_component"]

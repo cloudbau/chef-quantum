@@ -41,6 +41,10 @@ default["quantum"]["syslog"]["config_facility"] = "local3"
 default["quantum"]["debug"] = "False"
 default["quantum"]["verbose"] = "False"
 
+default["quantum"]["logging.conf"]["use"] = false
+default["quantum"]["logging.conf"]["formatter"] = "quantum.openstack.common.log.LegacyFormatter"
+default["quantum"]["logging.conf"]["logfile"] = "/var/log/quantum/quantum.log"
+
 # Attention: the following parameter MUST be set to False if Quantum is
 # # being used in conjunction with nova security groups and/or metadata service.
 default["quantum"]["overlap_ips"] = "False"

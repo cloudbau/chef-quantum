@@ -16,6 +16,7 @@
 ## limitations under the License.
 ##
 
+include_recipe "quantum::quantum-common"
 case node["quantum"]["plugin"]
 when "ovs"
 	include_recipe "quantum::ovs-plugin"

@@ -20,6 +20,7 @@
 # TODO: removeme completely?
 
 include_recipe "osops-utils"
+include_recipe "quantum::quantum-common"
 
 api_endpoint = get_bind_endpoint("quantum", "api")
 rabbit_info = get_access_endpoint("rabbitmq-server", "rabbitmq", "queue")

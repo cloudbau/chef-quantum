@@ -20,6 +20,7 @@
 include_recipe "mysql::client"
 include_recipe "mysql::ruby"
 include_recipe "osops-utils"
+include_recipe "quantum::quantum-common"
 
 if not node["package_component"].nil?
     release = node["package_component"]

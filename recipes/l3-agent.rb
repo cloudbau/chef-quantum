@@ -17,6 +17,7 @@
 ## limitations under the License.
 
 include_recipe "osops-utils"
+include_recipe "quantum::quantum-common"
 
 if Chef::Config[:solo]
 	Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
