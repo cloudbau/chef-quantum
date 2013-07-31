@@ -9,6 +9,10 @@ use_syslog=<%= @use_syslog %>
 syslog_log_facility=<%= @log_facility %>
 <% end %>
 
+<% if node["quantum"]["logging.conf"]["use"] %>
+log_config=/etc/quantum/logging.conf
+<% end %>
+
 <% if @quantum_plugin == "ovs" %>
 core_plugin = quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPluginV2
 <% end %>
