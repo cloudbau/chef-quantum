@@ -24,3 +24,8 @@ metadata_port = 8775
 # but it must match here and in the configuration used by the Nova Metadata
 # Server. NOTE: Nova uses a different key: quantum_metadata_proxy_shared_secret
 metadata_proxy_shared_secret = blabla
+
+<% if @quantum_plugin == "midonet" %>
+quantum_metadata_proxy_shared_secret
+metadata_proxy_shared_secret=oo9889aefjnv6653eaiuhfa
+<% end %>

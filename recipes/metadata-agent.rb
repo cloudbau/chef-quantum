@@ -52,8 +52,17 @@ template "/etc/quantum/metadata_agent.ini" do
       "keystone_admin_port" => ks_admin_endpoint["port"],
       "keystone_path" => ks_admin_endpoint["path"],
       "quantum_debug" => node["quantum"]["debug"],
-      "quantum_verbose" => node["quantum"]["verbose"]
+      "quantum_verbose" => node["quantum"]["verbose"],
+      "quantum_plugin" => node["quantum"]["plugin"],
+      "midonet_provider_router" => node["midonet"]["provider_router_id"],
+      "midonet_tenant" => node["midonet"]["keystone_tenant"],
+      "midonet_user" => node["midonet"]["keystone_user"],
+      "midonet_password" => node["midonet"]["keystone_password"],
+      "mnapi_protocol" => node["midonet"]["api"]["protocol"],
+      "mnapi_host" => node["midonet"]["api"]["pub_hostname"],
+      "mnapi_port" => node["midonet"]["api"]["port"],
+      "mnapi_path" => node["midonet"]["api"]["path"]
     )
-    notifies :restart, resources(:service => "quantum-dhcp-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-dhcp-agent"), :immediately
+    notifies :restart, resources(:service => "quantum-metadata-agent"), :immediately
+    notifies :enable, resources(:service => "quantum-metadata-agent"), :immediately
 end
