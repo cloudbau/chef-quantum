@@ -20,10 +20,10 @@ use_namespaces = True
 enable_isolated_metadata = True
 
 [MIDONET]
-midonet_uri=<%= @mnapi_protocol %>://<%= @mnapi_host %>:<%= @mnapi_port %>/<%= @mnapi_path %>
-username=<%= @midonet_username %>
-password=<%= @midonet_password %>
-project_id=<%= @midonet_tenant %>
-provider_router_id=<%= @midonet_provider_router %>
+midonet_uri=<%= node["midonet"]["api"]["protocol"] %>://<%= node["midonet"]["api"]["pub_hostname"] %>:<%= node["midonet"]["api"]["port"] %>/<%= node["midonet"]["api"]["path"] %>
+username=<%= node["midonet"]["keystone_user"] %>
+password=<%= node["midonet"]["keystone_password"] %>
+project_id=<%= node["midonet"]["keystone_tenant"] %>
+provider_router_id=<%= node["midonet"]["provider_router_id"] %>
 <% end %>
 
