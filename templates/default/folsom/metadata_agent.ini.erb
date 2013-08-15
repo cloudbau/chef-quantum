@@ -23,4 +23,4 @@ metadata_port = 8775
 # shared secret to prevent spoofing.  You may select any string for a secret,
 # but it must match here and in the configuration used by the Nova Metadata
 # Server. NOTE: Nova uses a different key: quantum_metadata_proxy_shared_secret
-metadata_proxy_shared_secret = blabla
+metadata_proxy_shared_secret = <%= @metadata_shared_secret %>

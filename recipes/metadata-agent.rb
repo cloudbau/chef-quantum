@@ -19,6 +19,11 @@
 include_recipe "osops-utils"
 include_recipe "quantum::quantum-common"
 
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+if node["quantum"]["metadata_shared_secret"].nil?
+    node.normal["quantum"]["metadata_shared_secret"] = secure_password
+end
+
 if not node["package_component"].nil?
     release = node["package_component"]
 else
@@ -53,7 +58,8 @@ template "/etc/quantum/metadata_agent.ini" do
       "keystone_path" => ks_admin_endpoint["path"],
       "quantum_debug" => node["quantum"]["debug"],
       "quantum_verbose" => node["quantum"]["verbose"],
-      "quantum_plugin" => node["quantum"]["plugin"]
+      "quantum_plugin" => node["quantum"]["plugin"],
+      "metadata_shared_secret" => node["quantum"]["metadata_shared_secret"]
     )
     notifies :restart, resources(:service => "quantum-metadata-agent"), :immediately
     notifies :enable, resources(:service => "quantum-metadata-agent"), :immediately
