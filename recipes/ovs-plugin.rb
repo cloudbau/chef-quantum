@@ -35,9 +35,8 @@ node["quantum"][plugin]["packages"].each do |pkg|
 end
 
 bash "installing linux headers to compile openvswitch module" do
-  code <<-EOH
-    apt-get install -y linux-headers-`uname -r`
-  EOH
+  command "apt-get install -y linux-headers-`uname -r`"
+  not_if "dpkg -s linux-headers-`uname -r`"
 end
 
 service "quantum-plugin-openvswitch-agent" do
