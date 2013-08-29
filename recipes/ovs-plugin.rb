@@ -125,13 +125,13 @@ end
 execute "create integration bridge" do
     command "ovs-vsctl add-br #{node["quantum"]["ovs"]["integration_bridge"]}"
     action :run
-    not_if "ovs-vsctl show | grep 'Bridge br-int'" ## FIXME
+    not_if "ovs-vsctl br-exists br-int"
 end
 
 execute "create external bridge" do
     command "ovs-vsctl add-br #{node["quantum"]["ovs"]["external_bridge"]}"
     action :run
-    not_if "ovs-vsctl show | grep 'Bridge br-ex'" ## FIXME
+    not_if "ovs-vsctl br-exists br-ex"
 end
 
 if node["quantum"]["ovs"]["use_provider_networks"]
@@ -140,7 +140,7 @@ if node["quantum"]["ovs"]["use_provider_networks"]
       bridge = network_info['bridge']
       command "ovs-vsctl add-br #{bridge}"
       action :run
-      not_if "ovs-vsctl show | grep 'Bridge #{bridge}'" ## FIXME
+      not_if "ovs-vsctl br-exists #{bridge}"
     end
     
     execute "connecting provider port to bridge for #{network_name}" do
@@ -148,7 +148,7 @@ if node["quantum"]["ovs"]["use_provider_networks"]
       port = network_info['port']
       command "ovs-vsctl add-port #{bridge} #{port}"
       action :run
-      not_if "ovs-vsctl show | grep 'Port \"#{port}'" ## FIXME
+      not_if "ovs-vsctl list-ports #{bridge} | grep #{port}"
     end
   end
 end
