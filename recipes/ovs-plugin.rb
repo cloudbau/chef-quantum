@@ -150,5 +150,19 @@ if node["quantum"]["ovs"]["use_provider_networks"]
       action :run
       not_if "ovs-vsctl list-ports #{bridge} | grep #{port}"
     end
+
+    service "neutron-provider-#{network-name}" do
+      provider Chef::Provider::Service::Upstart # XXX Ubuntu only
+      action :nothing
+    end
+
+    template "/etc/init/neutron-provider-#{network_name}.conf" do
+      source "neutron-provider-network.conf.erb"
+      variables({
+        :iface => port,
+        :bridge => bridge
+      })
+      notifies :start, "service[neutron-provider-#{network-name}]", :immediately
+    end
   end
 end

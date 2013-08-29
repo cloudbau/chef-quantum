@@ -1,0 +1,11 @@
+description "ensure provider network interface is up"
+
+# late
+start on stopped rc
+
+task
+
+script
+  ip l set up <%= @iface %>
+  ip l set up <%= @bridge %>
+end script
