@@ -1,0 +1,13 @@
+description "move public IP to br-ex"
+
+# ovs-vswitchd should be running now, it's /etc/init.d/openvswitch-switch
+start on stopped rc
+
+task
+
+script
+  # set in /etc/network/interfaces
+  ip a flush dev <%= @if %>
+  ip a add <%= @ip %>/16 dev br-ex
+  ip l set up br-ex
+end script

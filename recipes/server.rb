@@ -179,3 +179,21 @@ template "/etc/quantum/quantum.conf" do
     notifies :restart, resources(:service => "quantum-server"), :immediately
     notifies :enable, resources(:service => "quantum-server"), :immediately
 end
+
+public_if, public_ip = get_if_ip_for_net('public')
+
+if public_if != "br-ex" # early run, eth1.300 still has 10.122.0.11 (example)
+
+  service "neutron-ip-fix" do
+    action :nothing
+  end
+
+  template "/etc/init/neutron-ip-fix.conf" do
+    source "neutron-ip-fix.conf.erb"
+    variables({
+      :if => public_if,
+      :ip => public_ip
+    })
+    notifies :start, "service[neutron-ip-fix]", :immediately
+  end
+end
