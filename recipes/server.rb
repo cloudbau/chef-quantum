@@ -185,6 +185,7 @@ public_if, public_ip = get_if_ip_for_net('public')
 if public_if != "br-ex" # early run, eth1.300 still has 10.122.0.11 (example)
 
   service "neutron-ip-fix" do
+    provider Chef::Provider::Service::Upstart
     action :nothing
   end
 
