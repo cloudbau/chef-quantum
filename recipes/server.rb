@@ -195,6 +195,6 @@ if public_if != "br-ex" # early run, eth1.300 still has 10.122.0.11 (example)
       :if => public_if,
       :ip => public_ip
     })
-    notifies :start, "service[neutron-ip-fix]", :immediately
+    notifies :start, "service[neutron-ip-fix]", :delayed
   end
 end
