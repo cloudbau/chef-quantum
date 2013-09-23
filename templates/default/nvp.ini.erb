@@ -92,6 +92,6 @@ default_iface_name = <%= @default_iface_name %>
 #nvp_controller_connection=10.127.1.10:443:admin:admin:30:10:2:2
 #nvp_controller_connection=10.127.1.11:443:admin:admin:30:10:2:2
 #nvp_controller_connection=10.127.1.12:443:admin:admin:30:10:2:2
-<% @nvp_controllers.each do |ip, data| -%>
-nvp_controller_connection=<%= ip %>:<%= data[:port] %>:<%= data[:username] %>:<%= data[:password] %>:30:10:2:2
+<% @nvp_controllers.each do |ctrl| -%>
+nvp_controller_connection=<%= ctrl[:host] %>:<%= ctrl[:port] %>:<%= ctrl[:username] %>:<%= ctrl[:password] %>:30:10:2:2
 <% end -%>
