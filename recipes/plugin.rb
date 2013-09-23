@@ -20,4 +20,6 @@ include_recipe "quantum::quantum-common"
 case node["quantum"]["plugin"]
 when "ovs"
 	include_recipe "quantum::ovs-plugin"
+when "nicira"
+	include_recipe "quantum::nvp-plugin"
 end

@@ -17,6 +17,8 @@ log_config=/etc/quantum/logging.conf
 core_plugin = quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPluginV2
 <% elsif @quantum_plugin == "midonet" %>
 core_plugin = quantum.plugins.midonet.plugin.MidonetPluginV2
+<% elsif @quantum_plugin == "nicira" %>
+core_plugin = quantum.plugins.nicira.nicira_nvp_plugin.QuantumPlugin.NvpPluginV2
 <% end %>
 api_paste_config = /etc/quantum/api-paste.ini
 auth_strategy = keystone
