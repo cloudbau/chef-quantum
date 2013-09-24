@@ -198,3 +198,7 @@ if public_if != "br-ex" # early run, eth1.300 still has 10.122.0.11 (example)
     notifies :start, "service[neutron-ip-fix]", :delayed
   end
 end
+
+if node[:quantum][:plugin] == 'nicira'
+  include_recipe 'quantum::nvp-plugin'
+end

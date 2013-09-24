@@ -76,7 +76,7 @@ template "/etc/quantum/plugins/nicira/nvp.ini" do
     mode "0644"
     variables(
       :sql_connection => "mysql://#{quantum["db"]["username"]}:#{quantum["db"]["password"]}@#{mysql_info["host"]}/#{quantum["db"]["name"]}",
-      :nvp_controllers => node[:nvp][:nvp_controllers],
+      :nvp_controllers => node[:nvp][:controllers],
       :nvp_cluster_uuid => node[:nvp][:nvp_cluster_uuid],
       :default_tz_uuid => node[:nvp][:default_tz_uuid],
       :default_l3_gateway_service_uuid => node[:nvp][:default_l3_gateway_service_uuid],
@@ -100,3 +100,5 @@ end
 
 # idempotent (AFAICT)
 execute 'ovs-integrate init'
+
+execute "ovs-vsctl set-manager ssl:#{node[:nvp][:controllers].first[:host]}"
