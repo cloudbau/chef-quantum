@@ -65,7 +65,7 @@ end
 directory '/etc/quantum/plugins/nicira' do
   owner "root"
   group "root"
-  mode "0644"
+  mode "0755"
   recursive true
 end
 
