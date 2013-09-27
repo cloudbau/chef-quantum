@@ -27,6 +27,9 @@ reconnect_interval = 2
 # number of network gateways allowed per tenant, -1 means unlimited
 # quota_network_gateway = 5
 
+[DEFAULT]
+metadata_dhcp_host_route = False
+
 [NVP]
 # Maximum number of ports for each bridged logical switch
 # max_lp_per_bridged_ls = 64
@@ -40,7 +43,7 @@ reconnect_interval = 2
 # default_cluster_name =
 # The following flag enables the creation of a dedicated connection
 # to the metadata proxy for metadata server access via Quantum router
-# enable_metadata_access_network = True
+enable_metadata_access_network = True
 
 [CLUSTER:example]
 # This is uuid of the default NVP Transport zone that will be used for

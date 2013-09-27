@@ -89,7 +89,6 @@ end
 %w{
   openvswitch-common
   openvswitch-datapath-dkms
-  openvswitch-pki
   openvswitch-switch
   nicira-ovs-hypervisor-node
 }.each do |pkg|
