@@ -26,7 +26,7 @@ rabbit_info = get_access_endpoint("rabbitmq-server", "rabbitmq", "queue")
 api_endpoint = get_bind_endpoint("quantum", "api")
 quantum = get_settings_by_role("quantum-server", "quantum")
 
-template "/etc/quantum/api-paste.ini" do
+template "/etc/neutron/api-paste.ini" do
     source "#{release}/api-paste.ini.erb"
     owner "root"
     group "root"
@@ -41,8 +41,8 @@ template "/etc/quantum/api-paste.ini" do
     )
 end
 
-template "/etc/quantum/quantum.conf" do
-    source "#{release}/quantum.conf.erb"
+template "/etc/neutron/neutron.conf" do
+    source "#{release}/neutron.conf.erb"
     owner "root"
     group "root"
     mode "0644"
@@ -62,14 +62,14 @@ template "/etc/quantum/quantum.conf" do
     )
 end
 
-directory '/etc/quantum/plugins/nicira' do
+directory '/etc/neutron/plugins/nicira' do
   owner "root"
   group "root"
   mode "0755"
   recursive true
 end
 
-template "/etc/quantum/plugins/nicira/nvp.ini" do
+template "/etc/neutron/plugins/nicira/nvp.ini" do
     source "nvp.ini.erb"
     owner "root"
     group "root"

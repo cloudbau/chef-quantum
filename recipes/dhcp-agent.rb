@@ -45,7 +45,7 @@ end
 quantum = get_settings_by_role("quantum-server", "quantum")
 
 ks_admin_endpoint = get_access_endpoint("keystone", "keystone", "admin-api")
-template "/etc/quantum/dhcp_agent.ini" do
+template "/etc/neutron/dhcp_agent.ini" do
     source "#{release}/dhcp_agent.ini.erb"
     owner "root"
     group "root"

@@ -59,7 +59,7 @@ api_endpoint = get_bind_endpoint("quantum", "api")
 local_ip = get_ip_for_net('nova', node)		### FIXME
 quantum = get_settings_by_role("quantum-server", "quantum")
 
-template "/etc/quantum/api-paste.ini" do
+template "/etc/neutron/api-paste.ini" do
     source "#{release}/api-paste.ini.erb"
     owner "root"
     group "root"
@@ -74,8 +74,8 @@ template "/etc/quantum/api-paste.ini" do
     )
 end
 
-template "/etc/quantum/quantum.conf" do
-    source "#{release}/quantum.conf.erb"
+template "/etc/neutron/neutron.conf" do
+    source "#{release}/neutron.conf.erb"
     owner "root"
     group "root"
     mode "0644"
@@ -95,8 +95,8 @@ template "/etc/quantum/quantum.conf" do
     )
 end
 
-template "/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini" do
-    source "#{release}/ovs_quantum_plugin.ini.erb"
+template "/etc/neutron/neutron/plugins/openvswitch/ovs_neutron_plugin.ini" do
+    source "#{release}/ovs_neutron_plugin.ini.erb"
     owner "root"
     group "root"
     mode "0644"

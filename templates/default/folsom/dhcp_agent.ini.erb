@@ -8,11 +8,11 @@ debug = <%= @quantum_debug %>
 verbose = <%= @quantum_verbose %>
 
 # State_path must be writable by service user for quantum
-state_path = /var/run/quantum
+state_path = /var/run/neutron
 
 <% if @quantum_plugin == "midonet" %>
-dhcp_driver = quantum.plugins.midonet.agent.midonet_agent.DhcpDriverNoOp
-interface_driver = quantum.plugins.midonet.agent.midonet_agent.MidonetInterfaceDriver
+dhcp_driver = neutron.plugins.midonet.agent.midonet_agent.DhcpDriverNoOp
+interface_driver = neutron.plugins.midonet.agent.midonet_agent.MidonetInterfaceDriver
 use_namespaces = True
 enable_isolated_metadata = True
 
@@ -27,6 +27,6 @@ provider_router_id=<%= node["midonet"]["provider_router_id"] %>
 enable_metadata_network = True
 enable_isolated_metadata = True
   <% end %>
-interface_driver = quantum.agent.linux.interface.OVSInterfaceDriver
-dhcp_driver = quantum.agent.linux.dhcp.Dnsmasq
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
 <% end %>

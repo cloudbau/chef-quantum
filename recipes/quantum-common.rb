@@ -18,7 +18,7 @@
 #
 
 
-template "/etc/quantum/logging.conf" do
+template "/etc/neutron/logging.conf" do
   source "folsom/logging.conf.erb"
   owner "root"
   group "root"

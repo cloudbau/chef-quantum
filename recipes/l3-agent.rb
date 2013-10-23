@@ -51,7 +51,7 @@ metadata_ip = get_ip_for_net("nova", search(:node, "recipes:nova\\:\\:api-metada
 
 quantum = get_settings_by_role("quantum-server", "quantum")
 
-template "/etc/quantum/l3_agent.ini" do
+template "/etc/neutron/l3_agent.ini" do
     source "#{release}/l3_agent.ini.erb"
     owner "root"
     group "root"

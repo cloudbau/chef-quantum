@@ -138,7 +138,7 @@ keystone_register "Register Quantum Endpoint" do
     action :create_endpoint
 end
 
-template "/etc/quantum/api-paste.ini" do
+template "/etc/neutron/api-paste.ini" do
     source "#{release}/api-paste.ini.erb"
     owner "root"
     group "root"
@@ -155,8 +155,8 @@ end
 
 # Get rabbit info
 rabbit_info = get_access_endpoint("rabbitmq-server", "rabbitmq", "queue")
-template "/etc/quantum/quantum.conf" do
-    source "#{release}/quantum.conf.erb"
+template "/etc/neutron/neutron.conf" do
+    source "#{release}/neutron.conf.erb"
     owner "root"
     group "root"
     mode "0644"

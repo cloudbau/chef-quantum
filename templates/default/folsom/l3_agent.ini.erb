@@ -4,10 +4,10 @@ use_namespaces = <%= @quantum_namespace %>
 metadata_ip = <%= @nova_metadata_ip %>
 debug = <%= @quantum_debug %>
 verbose = <%= @quantum_verbose %>
-state_path = /var/run/quantum
+state_path = /var/run/neutron
 
 <% if @quantum_plugin == "ovs" %>
-interface_driver = quantum.agent.linux.interface.OVSInterfaceDriver
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
 <% end %>
 
 auth_url = <%= @keystone_protocol %>://<%= @keystone_api_ipaddress %>:<%= @keystone_admin_port %>/<%= @keystone_path %>
@@ -17,4 +17,4 @@ admin_user = <%= @service_user %>
 admin_password = <%= @service_pass %>
 
 [AGENT]
-root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
+root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
