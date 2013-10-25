@@ -42,8 +42,8 @@ default["quantum"]["debug"] = "False"
 default["quantum"]["verbose"] = "False"
 
 default["quantum"]["logging.conf"]["use"] = false
-default["quantum"]["logging.conf"]["formatter"] = "quantum.openstack.common.log.LegacyFormatter"
-default["quantum"]["logging.conf"]["logfile"] = "/var/log/quantum/quantum.log"
+default["quantum"]["logging.conf"]["formatter"] = "neutron.openstack.common.log.ContextFormatter"
+default["quantum"]["logging.conf"]["logfile"] = "/var/log/neutron/neutron.log"
 
 # Attention: the following parameter MUST be set to False if Quantum is
 # # being used in conjunction with nova security groups and/or metadata service.
