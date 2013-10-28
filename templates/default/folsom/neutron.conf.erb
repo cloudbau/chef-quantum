@@ -4,6 +4,8 @@ verbose = <%= @quantum_verbose %>
 bind_host = <%= @quantum_ipaddress %>
 bind_port = <%= @quantum_port %>
 
+state_path=/var/run/neutron
+
 <% if @use_syslog == true %>
 use_syslog=<%= @use_syslog %>
 syslog_log_facility=<%= @log_facility %>
@@ -20,7 +22,7 @@ core_plugin = quantum.plugins.midonet.plugin.MidonetPluginV2
 <% elsif @quantum_plugin == "nicira" %>
 core_plugin = neutron.plugins.nicira.nicira_nvp_plugin.NeutronPlugin.NvpPluginV2
 <% end %>
-api_paste_config = /etc/quantum/api-paste.ini
+api_paste_config = /etc/neutron/api-paste.ini
 auth_strategy = keystone
 
 # Enable or disable overlapping IPs for subnets
@@ -71,7 +73,7 @@ quota_security_group_rule = 200
 quota_port = 150
 
 # default driver to use for quota checks
-# quota_driver = quantum.quota.ConfDriver
+# quota_driver = neutron.quota.ConfDriver
 
 [DATABASE]
 sql_connection = mysql://<%= @db_user %>:<%= @db_password %>@<%= @db_ip_address %>/<%= @db_name %>
