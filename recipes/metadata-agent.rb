@@ -33,7 +33,7 @@ end
 platform_options = node["quantum"]["platform"][release]
 plugin = node["quantum"]["plugin"]
 
-service "quantum-metadata-agent" do
+service "neutron-metadata-agent" do
     service_name platform_options["quantum_metadata_agent"]
     provider Chef::Provider::Service::Upstart if platform?("ubuntu")
     supports :status => true, :restart => true
@@ -61,6 +61,6 @@ template "/etc/neutron/metadata_agent.ini" do
       "quantum_plugin" => node["quantum"]["plugin"],
       "metadata_shared_secret" => node["quantum"]["metadata_shared_secret"]
     )
-    notifies :restart, resources(:service => "quantum-metadata-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-metadata-agent"), :immediately
+    notifies :restart, resources(:service => "neutron-metadata-agent"), :immediately
+    notifies :enable, resources(:service => "neutron-metadata-agent"), :immediately
 end

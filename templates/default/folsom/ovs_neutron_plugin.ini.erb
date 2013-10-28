@@ -15,12 +15,12 @@ network_vlan_ranges=<%=  @provider_network_bridge_mappings.map { |network_name, 
 <% end %>
 
 [AGENT]
-root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
-state_path = /var/run/quantum
+root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+state_path = /var/run/neutron
 polling_interval = 2
 debug = <%= @ovs_debug %>
 verbose = <%= @ovs_verbose %>
 
 [SECURITYGROUP]
 # Firewall driver for realizing quantum security group function
-firewall_driver = quantum.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
