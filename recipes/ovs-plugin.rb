@@ -95,7 +95,7 @@ template "/etc/neutron/neutron.conf" do
     )
 end
 
-template "/etc/neutron/neutron/plugins/openvswitch/ovs_neutron_plugin.ini" do
+template "/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini" do
     source "#{release}/ovs_neutron_plugin.ini.erb"
     owner "root"
     group "root"
