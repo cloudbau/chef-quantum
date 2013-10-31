@@ -12,7 +12,7 @@ syslog_log_facility=<%= @log_facility %>
 <% end %>
 
 <% if node["quantum"]["logging.conf"]["use"] %>
-log_config=/etc/quantum/logging.conf
+log_config=/etc/neutron/logging.conf
 <% end %>
 
 <% if @quantum_plugin == "ovs" %>

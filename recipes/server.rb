@@ -67,6 +67,29 @@ platform_options["quantum_packages"].each do |pkg|
     end
 end
 
+if node[:quantum][:plugin] == 'ovs'
+
+  cookbook_file "/etc/init/neutron-openvswitch-agent.conf" do
+    source "neutron-openvswitch-agent.conf"
+    mode 00644
+  end
+
+  # created by quantum::ovs-plugin
+  plugin_config_ini = '/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+
+elsif node[:quantum][:plugin] == 'nicira'
+  # created by quantum::nvp-plugin
+  plugin_config_ini = '/etc/neutron/plugins/nicira/nvp.ini'
+end
+
+template "/etc/init/neutron-server.conf" do
+  source "neutron-server.conf.erb"
+  mode 00644
+  variables(
+    :plugin_config => plugin_config_ini
+  )
+end
+
 service "quantum-server" do
     service_name platform_options["quantum_api_service"]
     provider Chef::Provider::Service::Upstart if platform?("ubuntu")
