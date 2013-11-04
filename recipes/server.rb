@@ -69,7 +69,7 @@ end
 
 if node[:quantum][:plugin] == 'ovs'
 
-  cookbook_file "/etc/init/neutron-openvswitch-agent.conf" do
+  template "/etc/init/neutron-openvswitch-agent.conf" do
     source "#{release}/neutron-openvswitch-agent.conf.erb"
     mode 00644
   end
@@ -83,7 +83,7 @@ elsif node[:quantum][:plugin] == 'nicira'
 end
 
 template "/etc/init/neutron-server.conf" do
-  source "neutron-server.conf.erb"
+  source "#{release}/neutron-server.conf.erb"
   mode 00644
   variables(
     :plugin_config => plugin_config_ini
