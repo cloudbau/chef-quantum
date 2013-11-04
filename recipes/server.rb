@@ -70,7 +70,7 @@ end
 if node[:quantum][:plugin] == 'ovs'
 
   template "/etc/init/neutron-openvswitch-agent.conf" do
-    source "#{release}/neutron-openvswitch-agent.conf.erb"
+    source "neutron-openvswitch-agent.conf.erb"
     mode 00644
   end
 
