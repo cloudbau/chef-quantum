@@ -83,7 +83,7 @@ elsif node[:quantum][:plugin] == 'nicira'
 end
 
 template "/etc/init/neutron-server.conf" do
-  source "#{release}/neutron-server.conf.erb"
+  source "neutron-server.conf.erb"
   mode 00644
   variables(
     :plugin_config => plugin_config_ini
