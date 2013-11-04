@@ -70,7 +70,7 @@ end
 if node[:quantum][:plugin] == 'ovs'
 
   cookbook_file "/etc/init/neutron-openvswitch-agent.conf" do
-    source "neutron-openvswitch-agent.conf"
+    source "#{release}/neutron-openvswitch-agent.conf.erb"
     mode 00644
   end
 
