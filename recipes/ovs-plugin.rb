@@ -43,7 +43,7 @@ service "quantum-plugin-openvswitch-agent" do
     service_name node["quantum"]["ovs"]["service_name"]
     provider Chef::Provider::Service::Upstart
     supports :status => true, :restart => true
-    action :nothing
+    action :enable
 end
 
 service "openvswitch-switch" do
@@ -116,10 +116,8 @@ template "/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini" do
       "use_provider_networks" => node["quantum"]["ovs"]["use_provider_networks"],
       "provider_network_bridge_mappings" => node["quantum"]["ovs"]["provider_network_bridge_mappings"]
     )
-    # notifies :restart, resources(:service => "quantum-server"), :immediately
-    notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
-    notifies :enable, resources(:service => "quantum-plugin-openvswitch-agent"), :immediately
     notifies :restart, resources(:service => "openvswitch-switch"), :immediately
+    notifies :restart, resources(:service => "quantum-plugin-openvswitch-agent"), :delayed
 end
 
 execute "create integration bridge" do
